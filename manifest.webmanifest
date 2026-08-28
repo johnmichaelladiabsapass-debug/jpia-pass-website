@@ -1,0 +1,17 @@
+{
+  "name": "JPIA PASS College Chapter",
+  "short_name": "JPIA PASS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#0f4c81",
+  "description": "The official JPIA PASS College Chapter member website and app.",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
