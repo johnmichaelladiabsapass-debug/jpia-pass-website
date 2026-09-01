@@ -1,0 +1,16 @@
+{
+  "name": "jpia-admin-portal",
+  "version": "1.0.0",
+  "description": "JPIA Admin Portal with membership approval, financial reports, bylaws, projects, and officer management",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["jpia", "admin", "portal", "membership"],
+  "author": "John Michael",
+  "license": "MIT",
+  "engines": {
+    "node": "18.x"
+  }
+}
