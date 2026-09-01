@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JPIA Member Portal</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="authView" class="auth-layout hidden">
+        <div class="auth-shell">
+          <div class="auth-panel branding-panel">
+            <div class="brand">
+              <div class="brand-badge">JPIA</div>
+              <div>
+                <p class="eyebrow">Secure portal</p>
+                <h1>JPIA Member Portal</h1>
+              </div>
+            </div>
+
+            <ul class="feature-list">
+              <li>Role-based access control</li>
+              <li>Super Admin approval required</li>
+              <li>Audit logging and notifications</li>
+              <li>Secure password protection</li>
+            </ul>
+          </div>
+
+          <div class="auth-panel form-panel">
+            <div class="tabs">
+              <button class="tab active" data-tab="login">Member Login</button>
+              <button class="tab" data-tab="register">Member Registration</button>
+            </div>
+
+            <form id="loginForm" class="auth-form active-form">
+              <h2>Member Login</h2>
+              <label>
+                Email
+                <input type="email" id="loginEmail" required placeholder="you@example.com" />
+              </label>
+              <label>
+                Password
+                <input type="password" id="loginPassword" required placeholder="Enter password" />
+              </label>
+              <label id="otpField" class="hidden">
+                2FA Code
+                <input type="text" id="loginOtp" maxlength="6" placeholder="123456" />
+              </label>
+              <button type="submit" class="primary-btn">Log In</button>
+            </form>
+
+            <form id="registerForm" class="auth-form">
+              <h2>Create member account</h2>
+              <label>
+                Full name
+                <input type="text" id="registerName" required placeholder="Jane Doe" />
+              </label>
+              <label>
+                Email
+                <input type="email" id="registerEmail" required placeholder="you@example.com" />
+              </label>
+              <label>
+                Password
+                <input type="password" id="registerPassword" required placeholder="Create password" />
+              </label>
+              <button type="submit" class="primary-btn">Register as Member</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="dashboardView" class="hidden">
+        <header class="topbar">
+          <div class="brand small-brand">
+            <div class="brand-badge small">JPIA</div>
+            <div>
+              <strong id="portalTitle">Member Portal</strong>
+            </div>
+          </div>
+          <div class="user-bar">
+            <span id="welcomeText">Welcome</span>
+            <button id="logoutBtn" class="secondary-btn">Logout</button>
+          </div>
+        </header>
+
+        <main class="dashboard-shell">
+          <aside class="sidebar">
+            <nav>
+              <button class="nav-link active" data-section="overview">Overview</button>
+              <button class="nav-link" data-section="users">Users</button>
+              <button class="nav-link" data-section="admins">Admins</button>
+              <button class="nav-link" data-section="requests">Admin Requests</button>
+              <button class="nav-link" data-section="content">Website Content</button>
+              <button class="nav-link" data-section="activity">Audit Logs</button>
+            </nav>
+          </aside>
+
+          <section class="content-area">
+            <div id="overviewSection" class="section-panel active-panel">
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <p>Total Users</p>
+                  <h3 id="totalUsersStat">0</h3>
+                </div>
+                <div class="stat-card">
+                  <p>Total Admins</p>
+                  <h3 id="totalAdminsStat">0</h3>
+                </div>
+                <div class="stat-card warning">
+                  <p>Pending Requests</p>
+                  <h3 id="pendingRequestsStat">0</h3>
+                </div>
+                <div class="stat-card success">
+                  <p>Recent Activity</p>
+                  <h3 id="recentActivityStat">0</h3>
+                </div>
+              </div>
+
+              <div class="two-column-layout">
+                <div class="panel-box">
+                  <h3>Request Admin Access</h3>
+                  <form id="requestAdminForm">
+                    <label>
+                      Registered Email
+                      <input type="email" id="requestEmail" required />
+                    </label>
+                    <label>
+                      Reason for request
+                      <textarea id="requestReason" rows="4" placeholder="Optional reason for admin access"></textarea>
+                    </label>
+                    <button type="submit" class="primary-btn">Submit Request</button>
+                    <p id="requestStatus" class="form-status" aria-live="polite"></p>
+                  </form>
+                </div>
+
+                <div class="panel-box">
+                  <h3>System Status</h3>
+                  <ul class="status-list">
+                    <li><span>Authentication</span><strong>Secure</strong></li>
+                    <li><span>RBAC</span><strong>Enabled</strong></li>
+                    <li><span>Email Verification</span><strong>Enabled</strong></li>
+                    <li><span>2FA</span><strong>Optional</strong></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div id="usersSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>User Management</h3>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="usersTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="adminsSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Admin Management</h3>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>2FA</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="requestsSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Admin Request Approval</h3>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Date</th>
+                      <th>Reason</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="requestsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="contentSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Announcement Control</h3>
+                <button id="addAnnouncementBtn" type="button" class="primary-btn">+ Add Announcement</button>
+              </div>
+              <div id="announcementEditor" class="announcement-editor"></div>
+              <div class="panel-box">
+                <p class="form-status">Only published announcements appear on the public website.</p>
+              </div>
+            </div>
+
+            <div id="activitySection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Activity & Audit Logs</h3>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Action</th>
+                      <th>User</th>
+                      <th>Details</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activityTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
