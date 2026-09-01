@@ -1,0 +1,561 @@
+{
+  "users": [
+    {
+      "id": "user-superadmin",
+      "name": "John Michael M. Ladia",
+      "email": "johnmichaelladia.bsa.pass@gmail.com",
+      "passwordHash": "a35fbcbdf6ccff7b9778d4938c7e527cb15c079110927ed8c2b97ea2e6039f713d515deb86f8e3b324169e8634108e0d5c2809ea604922197031eaa01a623fd9",
+      "salt": "ca6fd4a108ff636c13ac61a28d007f2d",
+      "role": "super_admin",
+      "status": "active",
+      "emailVerified": true,
+      "twoFactorEnabled": false,
+      "createdAt": "2026-08-28T12:03:19.511Z",
+      "lastLoginAt": "2026-09-01T08:12:24.484Z"
+    },
+    {
+      "id": "user-member",
+      "name": "Regular User",
+      "email": "member@jpia.local",
+      "passwordHash": "73b08d49b01bf2458b77b7e151f4dc87c37fbc362151cafe06f36556d3f01a37cb7b22b17474a60c6f374314da87d527349ee86b5f121e01b8ec704a65f2f13d",
+      "salt": "000ee498229514c936bad99042204f36",
+      "role": "admin",
+      "status": "active",
+      "emailVerified": true,
+      "twoFactorEnabled": false,
+      "createdAt": "2026-08-28T12:03:19.672Z",
+      "lastLoginAt": "2026-08-28T12:25:45.648Z"
+    },
+    {
+      "id": "user-admin",
+      "name": "Approved Admin",
+      "email": "admin@jpia.local",
+      "passwordHash": "2735e346bf25d188962a68e6600758819ce5ec4bce3c23f9c9a5e30db997100d594a736ed4cab24cf2d9255c39f1c5d70daa50b95442b4f2bff61e95b4e26c76",
+      "salt": "1b4b802e873d6d3283104729c1a91466",
+      "role": "admin",
+      "status": "active",
+      "emailVerified": true,
+      "twoFactorEnabled": false,
+      "createdAt": "2026-08-28T12:03:19.845Z",
+      "lastLoginAt": null
+    },
+    {
+      "id": "user-1787923198651-ff5b48",
+      "name": "Live Test Member",
+      "email": "test.member.1787923198514@jpia.local",
+      "passwordHash": "fc45c4ee19813c83d0f0fc4f3248c9ffcfbdab2618e174f60d84ea49089a723fdd8f42366d485139eb824b1404eabb6d042a769f074c1f859fe3b549ae88c16c",
+      "salt": "d2fbca464d1091a58aadfe73965d1de3",
+      "role": "user",
+      "status": "active",
+      "emailVerified": true,
+      "twoFactorEnabled": false,
+      "createdAt": "2026-08-28T13:19:58.802Z",
+      "lastLoginAt": "2026-08-28T13:19:59.059Z"
+    },
+    {
+      "id": "user-1788249598639-dfbea7",
+      "name": "John Michael M. Ladia",
+      "email": "johnmichaelladia18@gmail.com",
+      "passwordHash": "0709f47ede54f7c2c0c825b7a88ef127e47e4f8d4760e04fae73a7e15ea50079aea5ec071495ee3d1213e30a72c502e338d4083c43511e19b528a5bce00bc9e2",
+      "salt": "caab01cc6ce828fea9e938ad40624b78",
+      "role": "admin",
+      "status": "active",
+      "emailVerified": true,
+      "twoFactorEnabled": false,
+      "createdAt": "2026-09-01T07:59:58.721Z",
+      "lastLoginAt": "2026-09-01T08:29:29.437Z"
+    }
+  ],
+  "roles": [
+    {
+      "id": "role-super-admin",
+      "name": "super_admin",
+      "permissions": [
+        "all"
+      ]
+    },
+    {
+      "id": "role-admin",
+      "name": "admin",
+      "permissions": [
+        "dashboard:view",
+        "users:view",
+        "requests:view",
+        "requests:approve",
+        "activity:view"
+      ]
+    },
+    {
+      "id": "role-user",
+      "name": "user",
+      "permissions": [
+        "profile:view",
+        "request:admin"
+      ]
+    }
+  ],
+  "permissions": [
+    {
+      "id": "perm-all",
+      "name": "all",
+      "description": "Full system access"
+    },
+    {
+      "id": "perm-dashboard",
+      "name": "dashboard:view",
+      "description": "View the dashboard"
+    },
+    {
+      "id": "perm-users",
+      "name": "users:view",
+      "description": "View user records"
+    },
+    {
+      "id": "perm-requests",
+      "name": "requests:view",
+      "description": "View admin access requests"
+    },
+    {
+      "id": "perm-approve",
+      "name": "requests:approve",
+      "description": "Approve or reject admin requests"
+    },
+    {
+      "id": "perm-activity",
+      "name": "activity:view",
+      "description": "View activity logs"
+    },
+    {
+      "id": "perm-profile",
+      "name": "profile:view",
+      "description": "View your profile"
+    },
+    {
+      "id": "perm-request-admin",
+      "name": "request:admin",
+      "description": "Submit admin access request"
+    }
+  ],
+  "adminRequests": [
+    {
+      "id": "req-1788249617997-179841",
+      "userId": "user-1788249598639-dfbea7",
+      "email": "johnmichaelladia18@gmail.com",
+      "reason": "I am the owner",
+      "status": "approved",
+      "createdAt": "2026-09-01T08:00:17.997Z",
+      "reviewedBy": "user-superadmin",
+      "reviewedAt": "2026-09-01T08:00:20.000Z"
+    },
+    {
+      "id": "req-1787923199248-edaf44",
+      "userId": "user-1787923198651-ff5b48",
+      "email": "test.member.1787923198514@jpia.local",
+      "reason": "Live request status test",
+      "status": "pending",
+      "createdAt": "2026-08-28T13:19:59.248Z",
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "id": "req-1787922999906-bd08f5",
+      "userId": "user-1787920834503-35364e",
+      "email": "johnmichaelladia.bsa.pass@gmail.com",
+      "reason": "I create this website",
+      "status": "approved",
+      "createdAt": "2026-08-28T13:16:39.906Z",
+      "reviewedBy": "user-superadmin",
+      "reviewedAt": "2026-08-28T13:20:42.725Z"
+    },
+    {
+      "id": "req-1787919160042-ac033b",
+      "userId": "user-member",
+      "email": "member@jpia.local",
+      "reason": "I will help coordinate chapter announcements and events.",
+      "status": "approved",
+      "createdAt": "2026-08-28T12:12:40.042Z",
+      "reviewedBy": "user-superadmin",
+      "reviewedAt": "2026-08-28T12:33:57.147Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "audit-1788251369439-c11742",
+      "userId": "user-1788249598639-dfbea7",
+      "action": "login_success",
+      "details": "johnmichaelladia18@gmail.com signed in successfully.",
+      "createdAt": "2026-09-01T08:29:29.439Z"
+    },
+    {
+      "id": "audit-1788250456300-7613ca",
+      "userId": "user-1788249598639-dfbea7",
+      "action": "login_success",
+      "details": "johnmichaelladia18@gmail.com signed in successfully.",
+      "createdAt": "2026-09-01T08:14:16.300Z"
+    },
+    {
+      "id": "audit-1788250344489-50533e",
+      "userId": "user-superadmin",
+      "action": "login_success",
+      "details": "johnmichaelladia.bsa.pass@gmail.com signed in successfully.",
+      "createdAt": "2026-09-01T08:12:24.490Z"
+    },
+    {
+      "id": "audit-1788249796118-96ca7b",
+      "userId": "user-1788249598639-dfbea7",
+      "action": "login_success",
+      "details": "johnmichaelladia18@gmail.com signed in successfully.",
+      "createdAt": "2026-09-01T08:03:16.118Z"
+    },
+    {
+      "id": "audit-1788249620000-approve-admin",
+      "userId": "user-superadmin",
+      "action": "admin_approved",
+      "details": "johnmichaelladia18@gmail.com was approved as an admin by johnmichaelladia.bsa.pass@gmail.com.",
+      "createdAt": "2026-09-01T08:00:20.000Z"
+    },
+    {
+      "id": "audit-1788249617999-af906e",
+      "userId": "user-1788249598639-dfbea7",
+      "action": "admin_request_submitted",
+      "details": "Admin request submitted for johnmichaelladia18@gmail.com.",
+      "createdAt": "2026-09-01T08:00:17.999Z"
+    },
+    {
+      "id": "audit-1788249605410-86d49c",
+      "userId": "user-1788249598639-dfbea7",
+      "action": "login_success",
+      "details": "johnmichaelladia18@gmail.com signed in successfully.",
+      "createdAt": "2026-09-01T08:00:05.410Z"
+    },
+    {
+      "id": "audit-1787926689096-e7c8b9",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T14:18:09.096Z"
+    },
+    {
+      "id": "audit-1787926682178-6610a7",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T14:18:02.178Z"
+    },
+    {
+      "id": "audit-1787926650869-0c5710",
+      "userId": "user-1787920834503-35364e",
+      "action": "login_success",
+      "details": "johnmichaelladia.bsa.pass@gmail.com signed in successfully.",
+      "createdAt": "2026-08-28T14:17:30.869Z"
+    },
+    {
+      "id": "audit-1787926609973-c69a44",
+      "userId": "user-superadmin",
+      "action": "site_content_updated",
+      "details": "superadmin@jpia.local updated public announcements.",
+      "createdAt": "2026-08-28T14:16:49.973Z"
+    },
+    {
+      "id": "audit-1787926606747-ff7873",
+      "userId": "user-superadmin",
+      "action": "site_content_updated",
+      "details": "superadmin@jpia.local updated public announcements.",
+      "createdAt": "2026-08-28T14:16:46.747Z"
+    },
+    {
+      "id": "audit-1787926602325-358618",
+      "userId": "user-superadmin",
+      "action": "login_success",
+      "details": "superadmin@jpia.local signed in successfully.",
+      "createdAt": "2026-08-28T14:16:42.325Z"
+    },
+    {
+      "id": "audit-1787925590426-47d961",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T13:59:50.426Z"
+    },
+    {
+      "id": "audit-1787925587934-dfefb7",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T13:59:47.934Z"
+    },
+    {
+      "id": "audit-1787925000169-6f48c7",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T13:50:00.169Z"
+    },
+    {
+      "id": "audit-1787924997683-611838",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T13:49:57.683Z"
+    },
+    {
+      "id": "audit-1787924973352-eba049",
+      "userId": "user-1787920834503-35364e",
+      "action": "login_success",
+      "details": "johnmichaelladia.bsa.pass@gmail.com signed in successfully.",
+      "createdAt": "2026-08-28T13:49:33.352Z"
+    },
+    {
+      "id": "audit-1787923645111-ef0732",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T13:27:25.111Z"
+    },
+    {
+      "id": "audit-1787923472874-5a9b32",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T13:24:32.874Z"
+    },
+    {
+      "id": "audit-1787923469177-f8bfb8",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T13:24:29.177Z"
+    },
+    {
+      "id": "audit-1787923422425-a30443",
+      "userId": "user-superadmin",
+      "action": "site_content_updated",
+      "details": "superadmin@jpia.local updated public announcements.",
+      "createdAt": "2026-08-28T13:23:42.425Z"
+    },
+    {
+      "id": "audit-1787923314646-7d7aad",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T13:21:54.646Z"
+    },
+    {
+      "id": "audit-1787923296170-3965be",
+      "userId": "user-1787920834503-35364e",
+      "action": "site_content_updated",
+      "details": "johnmichaelladia.bsa.pass@gmail.com updated public announcements.",
+      "createdAt": "2026-08-28T13:21:36.170Z"
+    },
+    {
+      "id": "audit-1787923278101-9684d8",
+      "userId": "user-1787920834503-35364e",
+      "action": "login_success",
+      "details": "johnmichaelladia.bsa.pass@gmail.com signed in successfully.",
+      "createdAt": "2026-08-28T13:21:18.101Z"
+    },
+    {
+      "id": "audit-1787923230410-5ef0fd",
+      "userId": "user-superadmin",
+      "action": "login_success",
+      "details": "superadmin@jpia.local signed in successfully.",
+      "createdAt": "2026-08-28T13:20:30.410Z"
+    },
+    {
+      "id": "audit-1787923199250-13763e",
+      "userId": "user-1787923198651-ff5b48",
+      "action": "admin_request_submitted",
+      "details": "Admin request submitted for test.member.1787923198514@jpia.local.",
+      "createdAt": "2026-08-28T13:19:59.250Z"
+    },
+    {
+      "id": "audit-1787923199061-9cb8ef",
+      "userId": "user-1787923198651-ff5b48",
+      "action": "login_success",
+      "details": "test.member.1787923198514@jpia.local signed in successfully.",
+      "createdAt": "2026-08-28T13:19:59.061Z"
+    },
+    {
+      "id": "audit-1787922999909-ebdfc8",
+      "userId": "user-1787920834503-35364e",
+      "action": "admin_request_submitted",
+      "details": "Admin request submitted for johnmichaelladia.bsa.pass@gmail.com.",
+      "createdAt": "2026-08-28T13:16:39.909Z"
+    },
+    {
+      "id": "audit-1787922980211-7ad05d",
+      "userId": "user-1787920834503-35364e",
+      "action": "login_success",
+      "details": "johnmichaelladia.bsa.pass@gmail.com signed in successfully.",
+      "createdAt": "2026-08-28T13:16:20.211Z"
+    },
+    {
+      "id": "audit-1787922715894-6b77aa",
+      "userId": "user-superadmin",
+      "action": "site_content_updated",
+      "details": "superadmin@jpia.local updated public announcements.",
+      "createdAt": "2026-08-28T13:11:55.894Z"
+    },
+    {
+      "id": "audit-1787922629855-b9e63b",
+      "userId": "user-superadmin",
+      "action": "login_success",
+      "details": "superadmin@jpia.local signed in successfully.",
+      "createdAt": "2026-08-28T13:10:29.856Z"
+    },
+    {
+      "id": "audit-1787921481443-20d8b2",
+      "userId": "user-1787920834503-35364e",
+      "action": "login_success",
+      "details": "johnmichaelladia.bsa.pass@gmail.com signed in successfully.",
+      "createdAt": "2026-08-28T12:51:21.444Z"
+    },
+    {
+      "id": "audit-1787920839308-b9f187",
+      "userId": "user-1787920834503-35364e",
+      "action": "login_success",
+      "details": "johnmichaelladia.bsa.pass@gmail.com signed in successfully.",
+      "createdAt": "2026-08-28T12:40:39.308Z"
+    },
+    {
+      "id": "audit-1787920427537-5de166",
+      "userId": "user-superadmin",
+      "action": "login_success",
+      "details": "superadmin@jpia.local signed in successfully.",
+      "createdAt": "2026-08-28T12:33:47.537Z"
+    },
+    {
+      "id": "audit-1787919945650-d3e945",
+      "userId": "user-member",
+      "action": "login_success",
+      "details": "member@jpia.local signed in successfully.",
+      "createdAt": "2026-08-28T12:25:45.650Z"
+    },
+    {
+      "id": "audit-1787919174221-a355ab",
+      "userId": "user-superadmin",
+      "action": "login_success",
+      "details": "superadmin@jpia.local signed in successfully.",
+      "createdAt": "2026-08-28T12:12:54.221Z"
+    },
+    {
+      "id": "audit-1787919160045-2b0f92",
+      "userId": "user-member",
+      "action": "admin_request_submitted",
+      "details": "Admin request submitted for member@jpia.local.",
+      "createdAt": "2026-08-28T12:12:40.045Z"
+    },
+    {
+      "id": "audit-1787918806218-83920a",
+      "userId": "user-member",
+      "action": "login_success",
+      "details": "member@jpia.local signed in successfully.",
+      "createdAt": "2026-08-28T12:06:46.218Z"
+    },
+    {
+      "id": "audit-1787918621710-db65b9",
+      "userId": "user-member",
+      "action": "login_success",
+      "details": "member@jpia.local signed in successfully.",
+      "createdAt": "2026-08-28T12:03:41.711Z"
+    },
+    {
+      "id": "audit-seed-1",
+      "userId": "user-superadmin",
+      "action": "system_init",
+      "details": "System initialized with the default Super Admin account.",
+      "createdAt": "2026-08-28T12:03:19.845Z"
+    }
+  ],
+  "emailNotifications": [
+    {
+      "id": "notif-1788249618003-02a023",
+      "userId": "user-superadmin",
+      "type": "admin_request",
+      "title": "Pending Admin Request",
+      "message": "John Michael M. Ladia (johnmichaelladia18@gmail.com) has submitted an admin access request.",
+      "createdAt": "2026-09-01T08:00:18.003Z",
+      "sent": true
+    },
+    {
+      "id": "notif-1788249618001-163d2d",
+      "userId": "user-superadmin",
+      "type": "admin_request",
+      "title": "New Admin Request",
+      "message": "John Michael M. Ladia requested admin access.",
+      "createdAt": "2026-09-01T08:00:18.001Z",
+      "sent": true
+    },
+    {
+      "id": "notif-1787923199255-2cf51d",
+      "userId": "user-superadmin",
+      "type": "admin_request",
+      "title": "Pending Admin Request",
+      "message": "Live Test Member (test.member.1787923198514@jpia.local) has submitted an admin access request.",
+      "createdAt": "2026-08-28T13:19:59.255Z",
+      "sent": true
+    },
+    {
+      "id": "notif-1787923199253-d67308",
+      "userId": "user-superadmin",
+      "type": "admin_request",
+      "title": "New Admin Request",
+      "message": "Live Test Member requested admin access.",
+      "createdAt": "2026-08-28T13:19:59.253Z",
+      "sent": true
+    },
+    {
+      "id": "notif-1787922999919-a5351c",
+      "userId": "user-superadmin",
+      "type": "admin_request",
+      "title": "Pending Admin Request",
+      "message": "John Michael M. Ladia (johnmichaelladia.bsa.pass@gmail.com) has submitted an admin access request.",
+      "createdAt": "2026-08-28T13:16:39.919Z",
+      "sent": true
+    },
+    {
+      "id": "notif-1787922999915-19ec72",
+      "userId": "user-superadmin",
+      "type": "admin_request",
+      "title": "New Admin Request",
+      "message": "John Michael M. Ladia requested admin access.",
+      "createdAt": "2026-08-28T13:16:39.915Z",
+      "sent": true
+    },
+    {
+      "id": "notif-1787919160050-26bdea",
+      "userId": "user-superadmin",
+      "type": "admin_request",
+      "title": "Pending Admin Request",
+      "message": "Regular User (member@jpia.local) has submitted an admin access request.",
+      "createdAt": "2026-08-28T12:12:40.050Z",
+      "sent": true
+    },
+    {
+      "id": "notif-1787919160048-2b5bd3",
+      "userId": "user-superadmin",
+      "type": "admin_request",
+      "title": "New Admin Request",
+      "message": "Regular User requested admin access.",
+      "createdAt": "2026-08-28T12:12:40.048Z",
+      "sent": true
+    }
+  ],
+  "siteContent": {
+    "announcements": [
+      {
+        "title": "Chapter Announcement",
+        "message": "Lima mo nga Shieka Mae",
+        "category": "Update",
+        "published": true
+      },
+      {
+        "title": "Finance",
+        "message": "100 mo nga aljohn",
+        "category": "Update",
+        "published": true
+      }
+    ],
+    "updatedAt": "2026-08-28T14:18:09.094Z"
+  }
+}

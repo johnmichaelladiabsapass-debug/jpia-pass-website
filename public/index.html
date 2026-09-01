@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JPIA Member Portal</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="authView" class="auth-layout hidden">
+        <div class="auth-shell">
+          <div class="auth-panel branding-panel">
+            <div class="brand">
+              <div class="brand-badge">JPIA</div>
+              <div>
+                <p class="eyebrow">Secure portal</p>
+                <h1>JPIA Member Portal</h1>
+              </div>
+            </div>
+
+            <ul class="feature-list">
+              <li>Member approval and admin monitoring</li>
+              <li>Financial reports and bylaws</li>
+              <li>Projects with progress tracking</li>
+              <li>Email notifications for chapter updates</li>
+            </ul>
+          </div>
+
+          <div class="auth-panel form-panel">
+            <div class="tabs">
+              <button class="tab active" data-tab="login">Member Login</button>
+              <button class="tab" data-tab="register">Member Registration</button>
+            </div>
+
+            <form id="loginForm" class="auth-form active-form">
+              <h2>Member Login</h2>
+              <label>
+                Email
+                <input type="email" id="loginEmail" required placeholder="you@example.com" />
+              </label>
+              <label>
+                Password
+                <input type="password" id="loginPassword" required placeholder="Enter password" />
+              </label>
+              <label id="otpField" class="hidden">
+                2FA Code
+                <input type="text" id="loginOtp" maxlength="6" placeholder="123456" />
+              </label>
+              <button type="submit" class="primary-btn">Log In</button>
+            </form>
+
+            <form id="registerForm" class="auth-form">
+              <h2>Create member account</h2>
+              <label>
+                Full name
+                <input type="text" id="registerName" required placeholder="Jane Doe" />
+              </label>
+              <label>
+                Email
+                <input type="email" id="registerEmail" required placeholder="you@example.com" />
+              </label>
+              <label>
+                Password
+                <input type="password" id="registerPassword" required placeholder="Create password" />
+              </label>
+              <button type="submit" class="primary-btn">Register as Member</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="dashboardView" class="hidden">
+        <header class="topbar">
+          <div class="brand small-brand">
+            <div class="brand-badge small">JPIA</div>
+            <div>
+              <strong id="portalTitle">Member Portal</strong>
+            </div>
+          </div>
+          <div class="user-bar">
+            <span id="welcomeText">Welcome</span>
+            <button id="logoutBtn" class="secondary-btn">Logout</button>
+          </div>
+        </header>
+
+        <main class="dashboard-shell">
+          <aside class="sidebar">
+            <nav>
+              <button class="nav-link active" data-section="overview">Overview</button>
+              <button class="nav-link" data-section="users">Users</button>
+              <button class="nav-link" data-section="admins">Admins</button>
+              <button class="nav-link" data-section="requests">Admin Requests</button>
+              <button class="nav-link" data-section="content">Website Content</button>
+              <button class="nav-link" data-section="reports">Financial Reports</button>
+              <button class="nav-link" data-section="bylaws">Bylaws</button>
+              <button class="nav-link" data-section="projects">Projects</button>
+              <button class="nav-link" data-section="leaves">Officer Leave</button>
+              <button class="nav-link" data-section="activity">Audit Logs</button>
+            </nav>
+          </aside>
+
+          <section class="content-area">
+            <div id="overviewSection" class="section-panel active-panel">
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <p>Total Users</p>
+                  <h3 id="totalUsersStat">0</h3>
+                </div>
+                <div class="stat-card">
+                  <p>Total Admins</p>
+                  <h3 id="totalAdminsStat">0</h3>
+                </div>
+                <div class="stat-card warning">
+                  <p>Pending Requests</p>
+                  <h3 id="pendingRequestsStat">0</h3>
+                </div>
+                <div class="stat-card success">
+                  <p>Recent Activity</p>
+                  <h3 id="recentActivityStat">0</h3>
+                </div>
+              </div>
+
+              <div class="two-column-layout">
+                <div class="panel-box">
+                  <h3>Request Admin Access</h3>
+                  <form id="requestAdminForm">
+                    <label>
+                      Registered Email
+                      <input type="email" id="requestEmail" required />
+                    </label>
+                    <label>
+                      Reason for request
+                      <textarea id="requestReason" rows="4" placeholder="Optional reason for admin access"></textarea>
+                    </label>
+                    <button type="submit" class="primary-btn">Submit Request</button>
+                    <p id="requestStatus" class="form-status" aria-live="polite"></p>
+                  </form>
+                </div>
+
+                <div class="panel-box">
+                  <h3>System Status</h3>
+                  <ul class="status-list">
+                    <li><span>Authentication</span><strong>Secure</strong></li>
+                    <li><span>Member Approval</span><strong>Admin Controlled</strong></li>
+                    <li><span>Reports & Bylaws</span><strong>Admin Managed</strong></li>
+                    <li><span>Project Updates</span><strong>Admin Controlled</strong></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div id="usersSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>User Management</h3>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="usersTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="adminsSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Admin Management</h3>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>2FA</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="requestsSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Admin Request Approval</h3>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Date</th>
+                      <th>Reason</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="requestsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="contentSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Announcement Control</h3>
+                <button id="addAnnouncementBtn" type="button" class="primary-btn">+ Add Announcement</button>
+              </div>
+              <div id="announcementEditor" class="announcement-editor"></div>
+              <div class="panel-box">
+                <p class="form-status">Only published announcements appear on the public website.</p>
+              </div>
+            </div>
+
+            <div id="reportsSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Financial Reports</h3>
+              </div>
+              <form id="financialReportForm" class="resource-form">
+                <div class="inline-inputs">
+                  <input type="text" id="reportTitle" placeholder="Report title" required />
+                  <input type="text" id="reportType" placeholder="Type (pdf / doc / link / drive)" value="pdf" />
+                </div>
+                <textarea id="reportDescription" rows="3" placeholder="Description or notes"></textarea>
+                <div class="inline-inputs">
+                  <input type="file" id="reportFile" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.zip,.csv,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg" />
+                  <button type="button" id="reportClearFileBtn" class="secondary-btn">Clear file</button>
+                </div>
+                <input type="url" id="reportUrl" placeholder="Paste a public URL, Google Drive link, or document link" />
+                <p class="form-status">You can upload a file or add a shared link such as a Drive, Google Form, PDF, or external document.</p>
+                <button type="submit" class="primary-btn">Upload report</button>
+              </form>
+              <div class="table-wrap resource-list-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Title</th><th>Type</th><th>Uploaded By</th><th>Link</th></tr>
+                  </thead>
+                  <tbody id="reportsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="bylawsSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Bylaws</h3>
+              </div>
+              <form id="bylawForm" class="resource-form">
+                <input type="text" id="bylawTitle" placeholder="Bylaw title" required />
+                <textarea id="bylawDescription" rows="3" placeholder="Summary or details"></textarea>
+                <div class="inline-inputs">
+                  <input type="file" id="bylawFile" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.zip,.csv,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg" />
+                  <button type="button" id="bylawClearFileBtn" class="secondary-btn">Clear file</button>
+                </div>
+                <input type="url" id="bylawUrl" placeholder="Paste a public URL, Google Drive link, or document link" />
+                <p class="form-status">You can upload a file or add a shared link such as a Drive, PDF, or external document.</p>
+                <button type="submit" class="primary-btn">Save bylaw</button>
+              </form>
+              <div class="resource-list" id="bylawsList"></div>
+            </div>
+
+            <div id="projectsSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Projects</h3>
+              </div>
+              <form id="projectForm" class="resource-form">
+                <input type="text" id="projectTitle" placeholder="Project title" required />
+                <textarea id="projectDescription" rows="3" placeholder="Project description"></textarea>
+                <div class="inline-inputs">
+                  <select id="projectStatus">
+                    <option value="coming-soon">Coming Soon</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="ready-to-commence">Ready to Commence</option>
+                    <option value="fully-done">Fully Done</option>
+                  </select>
+                  <input type="number" id="projectProgress" min="0" max="100" value="0" placeholder="Progress %" />
+                </div>
+                <button type="submit" class="primary-btn">Save project</button>
+              </form>
+              <div id="projectsBoard" class="projects-board"></div>
+            </div>
+
+            <div id="leavesSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Officer Leave Records</h3>
+              </div>
+              <form id="leaveForm" class="resource-form">
+                <div class="inline-inputs">
+                  <input type="text" id="leaveOfficerName" placeholder="Officer name" required />
+                  <input type="text" id="leavePosition" placeholder="Position" required />
+                </div>
+                <div class="inline-inputs">
+                  <input type="text" id="leaveType" placeholder="Leave type" value="leave" />
+                  <select id="leaveStatus">
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                </div>
+                <div class="inline-inputs">
+                  <input type="date" id="leaveStartDate" />
+                  <input type="date" id="leaveEndDate" />
+                </div>
+                <textarea id="leaveNotes" rows="3" placeholder="Notes or reason"></textarea>
+                <button type="submit" class="primary-btn">Record leave</button>
+              </form>
+              <div class="table-wrap resource-list-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Officer</th><th>Position</th><th>Type</th><th>Status</th><th>Date</th></tr>
+                  </thead>
+                  <tbody id="leavesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="activitySection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Activity & Audit Logs</h3>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Action</th>
+                      <th>User</th>
+                      <th>Details</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activityTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
