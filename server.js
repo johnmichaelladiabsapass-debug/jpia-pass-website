@@ -109,6 +109,28 @@ function ensureStore() {
   }
 
   const store = loadStore();
+  
+  // Ensure super admin account always exists
+  const superAdminExists = store.users && store.users.some(u => u.email === 'johnmichaelladia.bsa.pass@gmail.com' && u.role === 'super_admin');
+  if (!superAdminExists) {
+    const superSalt = makeSalt();
+    store.users = store.users || [];
+    store.users.unshift({
+      id: 'user-superadmin',
+      name: 'John Michael M. Ladia',
+      email: 'johnmichaelladia.bsa.pass@gmail.com',
+      passwordHash: hashPassword('23-02365', superSalt),
+      salt: superSalt,
+      role: 'super_admin',
+      status: 'active',
+      emailVerified: true,
+      twoFactorEnabled: false,
+      createdAt: new Date().toISOString(),
+      lastLoginAt: null
+    });
+    saveStore(store);
+  }
+  
   if (!store.siteContent) {
     store.siteContent = {
       announcements: [
