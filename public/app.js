@@ -12,6 +12,7 @@ const state = {
 };
 
 const $ = (selector) => document.querySelector(selector);
+const MAX_DOCUMENT_FILE_BYTES = 8 * 1024 * 1024;
 
 function showToast(message) {
   const toast = $('#toast');
@@ -808,6 +809,10 @@ function bindResourceForms() {
       showToast('Please add a title and either a file upload or a valid link.');
       return;
     }
+    if (reportFile && reportFile.size > MAX_DOCUMENT_FILE_BYTES) {
+      showToast('Report files must be 8 MB or smaller.');
+      return;
+    }
 
     try {
       let fileData = '';
@@ -855,6 +860,10 @@ function bindResourceForms() {
 
     if (!title || (!bylawUrl && !bylawFile)) {
       showToast('Please add a title and either a file upload or a valid link.');
+      return;
+    }
+    if (bylawFile && bylawFile.size > MAX_DOCUMENT_FILE_BYTES) {
+      showToast('Bylaw files must be 8 MB or smaller.');
       return;
     }
 

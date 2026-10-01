@@ -10,6 +10,8 @@ const PUBLIC_DIR = path.join(ROOT, 'public');
 const DATA_DIR = path.join(ROOT, 'data');
 const STORE_FILE = path.join(DATA_DIR, 'store.json');
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000;
+const MAX_JSON_BODY_BYTES = 1024 * 1024;
+const MAX_DOCUMENT_BODY_BYTES = 12 * 1024 * 1024;
 
 const sessions = new Map();
 
@@ -159,17 +161,26 @@ function saveStore(store) {
   fs.writeFileSync(STORE_FILE, JSON.stringify(store, null, 2));
 }
 
-function readBody(req) {
+function readBody(req, maxBytes = MAX_JSON_BODY_BYTES) {
   return new Promise((resolve, reject) => {
-    let body = '';
+    const chunks = [];
+    let bodyBytes = 0;
+    let tooLarge = false;
     req.on('data', (chunk) => {
-      body += chunk;
-      if (body.length > 1e6) {
-        req.destroy();
-        reject(new Error('Request body too large'));
+      bodyBytes += chunk.length;
+      if (bodyBytes > maxBytes) {
+        tooLarge = true;
+        chunks.length = 0;
+        return;
       }
+      if (!tooLarge) chunks.push(chunk);
     });
     req.on('end', () => {
+      if (tooLarge) {
+        reject(new Error('Request body too large'));
+        return;
+      }
+      const body = Buffer.concat(chunks).toString('utf8');
       if (!body) {
         resolve({});
         return;
@@ -609,7 +620,7 @@ function resolveRoute(req, res) {
       return;
     }
 
-    readBody(req)
+    readBody(req, MAX_DOCUMENT_BODY_BYTES)
       .then((body) => {
         const store = loadStore();
         const fileData = typeof body.fileData === 'string' ? body.fileData.trim() : '';
@@ -673,7 +684,7 @@ function resolveRoute(req, res) {
       return;
     }
 
-    readBody(req)
+    readBody(req, MAX_DOCUMENT_BODY_BYTES)
       .then((body) => {
         const store = loadStore();
         const fileData = typeof body.fileData === 'string' ? body.fileData.trim() : '';
