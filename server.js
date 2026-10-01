@@ -11,7 +11,7 @@ const DATA_DIR = path.join(ROOT, 'data');
 const STORE_FILE = path.join(DATA_DIR, 'store.json');
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000;
 const MAX_JSON_BODY_BYTES = 1024 * 1024;
-const MAX_DOCUMENT_BODY_BYTES = 12 * 1024 * 1024;
+const MAX_DOCUMENT_BODY_BYTES = 140 * 1024 * 1024;
 
 const sessions = new Map();
 
