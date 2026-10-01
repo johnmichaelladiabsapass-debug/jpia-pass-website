@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  const contentUrl = 'https://jpia-admin-portal.onrender.com/api/site-content';
+  const contentUrl = '/api/site-content';
   const loadPublicAnnouncements = () => fetch(contentUrl)
     .then((response) => response.ok ? response.json() : Promise.reject(new Error('Content unavailable')))
     .then(({ content }) => {

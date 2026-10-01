@@ -110,11 +110,18 @@ function ensureStore() {
 
   const store = loadStore();
   
-  // Ensure super admin account always exists
-  const superAdminExists = store.users && store.users.some(u => u.email === 'johnmichaelladia.bsa.pass@gmail.com' && u.role === 'super_admin');
-  if (!superAdminExists) {
+  // Ensure the owner's existing account remains the Super Admin.
+  store.users = store.users || [];
+  const ownerEmail = 'johnmichaelladia.bsa.pass@gmail.com';
+  const ownerAccount = store.users.find((user) => normalizeEmail(user.email) === ownerEmail);
+  if (ownerAccount) {
+    const needsUpdate = ownerAccount.role !== 'super_admin' || ownerAccount.status !== 'active' || !ownerAccount.emailVerified;
+    ownerAccount.role = 'super_admin';
+    ownerAccount.status = 'active';
+    ownerAccount.emailVerified = true;
+    if (needsUpdate) saveStore(store);
+  } else {
     const superSalt = makeSalt();
-    store.users = store.users || [];
     store.users.unshift({
       id: 'user-superadmin',
       name: 'John Michael M. Ladia',
