@@ -70,6 +70,7 @@ function renderSections() {
     bylaws: 'Bylaws',
     projects: 'Projects',
     leaves: 'Officer leave',
+    resources: 'Member resources',
     activity: 'Audit logs'
   };
   $('#sectionTitle').textContent = sectionTitles[state.activeSection] || 'Overview';
@@ -221,6 +222,69 @@ function renderBylawsList() {
     `;
     target.appendChild(card);
   });
+}
+
+function safeResourceUrl(value) {
+  const candidate = String(value || '').trim();
+  if (/^data:(?:application\/(?:pdf|msword|vnd\.[^;,]+|zip|octet-stream)|image\/(?:png|jpeg)|text\/(?:plain|csv));base64,/i.test(candidate)) {
+    return candidate;
+  }
+
+  try {
+    const url = new URL(candidate, window.location.origin);
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+  } catch (error) {
+    return '';
+  }
+}
+
+function renderMemberResourceList(targetSelector, items, kind) {
+  const target = $(targetSelector);
+  target.replaceChildren();
+  if (!items.length) {
+    const empty = document.createElement('p');
+    empty.className = 'member-resource-empty';
+    empty.textContent = `No ${kind} have been shared yet.`;
+    target.appendChild(empty);
+    return;
+  }
+
+  items.forEach((item) => {
+    const entry = document.createElement('article');
+    entry.className = 'member-resource-item';
+    const title = document.createElement('h5');
+    title.textContent = item.title || `Untitled ${kind.slice(0, -1)}`;
+    entry.appendChild(title);
+
+    if (item.description) {
+      const description = document.createElement('p');
+      description.textContent = item.description;
+      entry.appendChild(description);
+    }
+
+    const href = safeResourceUrl(item.fileUrl);
+    const link = document.createElement(href ? 'a' : 'span');
+    link.className = href ? 'member-resource-link' : 'member-resource-link unavailable';
+    link.textContent = href
+      ? `${item.source === 'upload' ? 'Download' : 'Open'} ${item.fileName || 'document'}`
+      : 'File link unavailable';
+    if (href) {
+      link.href = href;
+      if (href.startsWith('data:')) {
+        link.download = String(item.fileName || 'chapter-document').split(/[\\/]/).pop();
+      } else {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+    }
+    entry.appendChild(link);
+    target.appendChild(entry);
+  });
+}
+
+function renderMemberResources() {
+  renderMemberResourceList('#memberReportsList', state.reports, 'reports');
+  renderMemberResourceList('#memberBylawsList', state.bylaws, 'bylaws');
 }
 
 function renderProjectsBoard() {
@@ -431,6 +495,7 @@ async function loadDashboardData() {
       state.bylaws = bylaws.bylaws || [];
       state.projects = projects.projects || [];
       state.leaves = leaves.leaves || [];
+      renderMemberResources();
       renderReportsTable();
       renderBylawsList();
       renderProjectsBoard();
@@ -463,6 +528,7 @@ async function loadDashboardData() {
     state.projects = projectsResponse.projects || [];
     state.leaves = leavesResponse.leaves || [];
 
+    renderMemberResources();
     renderOverview(dashboard);
     renderUsersTable();
     renderAdminsTable();

@@ -99,6 +99,7 @@
           <aside class="sidebar">
             <nav>
               <button class="nav-link active" data-section="overview">Overview</button>
+              <button class="nav-link" data-section="resources">Member Resources</button>
               <button class="nav-link" data-section="users">Users</button>
               <button class="nav-link" data-section="admins">Admins</button>
               <button class="nav-link" data-section="requests">Admin Requests <span id="pendingRequestNavCount" class="nav-count hidden">0</span></button>
@@ -165,6 +166,23 @@
                     <li><span>Project Updates</span><strong>Admin Controlled</strong></li>
                   </ul>
                 </div>
+              </div>
+            </div>
+
+            <div id="resourcesSection" class="section-panel hidden-panel">
+              <div class="panel-header">
+                <h3>Member Resources</h3>
+                <p>Open documents shared with chapter members.</p>
+              </div>
+              <div class="member-resource-grid">
+                <section class="member-resource-group" aria-labelledby="memberReportsHeading">
+                  <h4 id="memberReportsHeading">Financial reports</h4>
+                  <div id="memberReportsList" class="member-resource-list"></div>
+                </section>
+                <section class="member-resource-group" aria-labelledby="memberBylawsHeading">
+                  <h4 id="memberBylawsHeading">Bylaws & governance</h4>
+                  <div id="memberBylawsList" class="member-resource-list"></div>
+                </section>
               </div>
             </div>
 

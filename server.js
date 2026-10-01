@@ -588,9 +588,12 @@ function resolveRoute(req, res) {
 
     if (req.method === 'GET') {
       const store = loadStore();
+      const reports = (store.financialReports || []).filter((report) =>
+        user.role === 'admin' || user.role === 'super_admin' || report.visibleToMembers !== false
+      );
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify({ reports: store.financialReports || [] }));
+      res.end(JSON.stringify({ reports }));
       return;
     }
 
