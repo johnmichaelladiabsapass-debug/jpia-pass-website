@@ -7,7 +7,8 @@ const state = {
   bylaws: [],
   projects: [],
   leaves: [],
-  activeSection: 'overview'
+  activeSection: 'overview',
+  refreshPromise: null
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -59,6 +60,19 @@ function renderUserStatus() {
 function renderSections() {
   const isAdminLike = state.user && (state.user.role === 'super_admin' || state.user.role === 'admin');
   const adminSections = ['users', 'admins', 'requests', 'content', 'reports', 'bylaws', 'projects', 'leaves', 'activity'];
+  const sectionTitles = {
+    overview: 'Overview',
+    users: 'Users',
+    admins: 'Admins',
+    requests: 'Admin requests',
+    content: 'Website content',
+    reports: 'Financial reports',
+    bylaws: 'Bylaws',
+    projects: 'Projects',
+    leaves: 'Officer leave',
+    activity: 'Audit logs'
+  };
+  $('#sectionTitle').textContent = sectionTitles[state.activeSection] || 'Overview';
 
   document.querySelectorAll('.nav-link').forEach((button) => {
     const restricted = adminSections.includes(button.dataset.section) && !isAdminLike;
@@ -116,6 +130,10 @@ function renderAdminsTable() {
 function renderRequestsTable() {
   const rowTarget = $('#requestsTableBody');
   rowTarget.innerHTML = '';
+  const pendingCount = state.requests.filter((request) => request.status === 'pending').length;
+  const pendingCountBadge = $('#pendingRequestNavCount');
+  pendingCountBadge.textContent = pendingCount;
+  pendingCountBadge.classList.toggle('hidden', pendingCount === 0);
 
   if (!state.requests.length) {
     rowTarget.innerHTML = '<tr><td colspan="6">No admin requests found.</td></tr>';
@@ -345,8 +363,42 @@ async function approveAdminRequest(requestId, action, reason = 'Approved by Supe
   });
 }
 
-async function refreshDashboard() {
-  if (!state.user) return;
+function refreshDashboard() {
+  if (!state.user) return Promise.resolve();
+  if (state.refreshPromise) return state.refreshPromise;
+
+  const refreshButton = $('#refreshDashboardBtn');
+  const syncStatus = $('#syncStatusText');
+  const syncIndicator = $('#syncIndicator');
+  refreshButton.disabled = true;
+  refreshButton.textContent = 'Refreshing...';
+  syncStatus.textContent = 'Syncing';
+  syncIndicator.classList.add('is-syncing');
+
+  state.refreshPromise = (async () => {
+    try {
+      const refreshed = await loadDashboardData();
+      if (!refreshed) throw new Error('Dashboard data could not be refreshed.');
+      syncStatus.textContent = 'Live';
+      $('#lastSyncedText').textContent = `Updated ${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`;
+      syncIndicator.classList.remove('is-error');
+    } catch (error) {
+      syncStatus.textContent = 'Sync issue';
+      $('#lastSyncedText').textContent = 'Will retry automatically';
+      syncIndicator.classList.add('is-error');
+    } finally {
+      refreshButton.disabled = false;
+      refreshButton.textContent = 'Refresh';
+      syncIndicator.classList.remove('is-syncing');
+      state.refreshPromise = null;
+    }
+  })();
+
+  return state.refreshPromise;
+}
+
+async function loadDashboardData() {
+  if (!state.user) return false;
 
   if (state.user.role === 'user') {
     $('#totalUsersStat').textContent = '—';
@@ -385,8 +437,9 @@ async function refreshDashboard() {
       renderLeavesTable();
     } catch (error) {
       renderRequestStatus([]);
+      return false;
     }
-    return;
+    return true;
   }
 
   try {
@@ -420,8 +473,10 @@ async function refreshDashboard() {
     renderBylawsList();
     renderProjectsBoard();
     renderLeavesTable();
+    return true;
   } catch (error) {
     showToast(error.message || 'Could not load dashboard.');
+    return false;
   }
 }
 
@@ -823,6 +878,16 @@ function bindLogout() {
   });
 }
 
+function bindDashboardControls() {
+  $('#refreshDashboardBtn').addEventListener('click', refreshDashboard);
+  window.setInterval(() => {
+    if (!document.hidden && state.user) refreshDashboard();
+  }, 60000);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && state.user) refreshDashboard();
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   bindTabs();
   bindNav();
@@ -832,5 +897,6 @@ document.addEventListener('DOMContentLoaded', () => {
   bindDecisionButtons();
   bindResourceForms();
   bindLogout();
+  bindDashboardControls();
   checkSession();
 });

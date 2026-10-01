@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JPIA Member Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -78,6 +81,14 @@
               <strong id="portalTitle">Member Portal</strong>
             </div>
           </div>
+          <div class="dashboard-tools">
+            <div class="sync-status" role="status" aria-live="polite">
+              <span id="syncIndicator" class="sync-indicator"></span>
+              <span id="syncStatusText">Waiting to sync</span>
+            </div>
+            <span id="lastSyncedText" class="last-synced">Not synced yet</span>
+            <button id="refreshDashboardBtn" type="button" class="refresh-btn" title="Refresh dashboard data">Refresh</button>
+          </div>
           <div class="user-bar">
             <span id="welcomeText">Welcome</span>
             <button id="logoutBtn" class="secondary-btn">Logout</button>
@@ -90,7 +101,7 @@
               <button class="nav-link active" data-section="overview">Overview</button>
               <button class="nav-link" data-section="users">Users</button>
               <button class="nav-link" data-section="admins">Admins</button>
-              <button class="nav-link" data-section="requests">Admin Requests</button>
+              <button class="nav-link" data-section="requests">Admin Requests <span id="pendingRequestNavCount" class="nav-count hidden">0</span></button>
               <button class="nav-link" data-section="content">Website Content</button>
               <button class="nav-link" data-section="reports">Financial Reports</button>
               <button class="nav-link" data-section="bylaws">Bylaws</button>
@@ -101,6 +112,13 @@
           </aside>
 
           <section class="content-area">
+            <div class="workspace-heading">
+              <div>
+                <p class="eyebrow">CHAPTER OPERATIONS</p>
+                <h1 id="sectionTitle">Overview</h1>
+              </div>
+              <p>Members, approvals, programs, and chapter resources in one place.</p>
+            </div>
             <div id="overviewSection" class="section-panel active-panel">
               <div class="stats-grid">
                 <div class="stat-card">
