@@ -213,6 +213,10 @@ function sanitizeUser(user) {
   return safeUser;
 }
 
+function normalizeEmail(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
 function setSessionCookie(res, token) {
   res.setHeader(
     'Set-Cookie',
@@ -393,14 +397,16 @@ function resolveRoute(req, res) {
         }
 
         const store = loadStore();
-        const user = store.users.find((entry) => entry.email.toLowerCase() === String(email).trim().toLowerCase());
+        const normalizedEmail = normalizeEmail(email);
+        const user = store.users.find((entry) => normalizeEmail(entry.email) === normalizedEmail);
         if (!user) {
           res.statusCode = 401;
           res.end(JSON.stringify({ message: 'Invalid email or password.' }));
           return;
         }
 
-        const expectedHash = hashPassword(String(password), user.salt);
+        const providedPassword = String(password);
+        const expectedHash = hashPassword(providedPassword, user.salt);
         if (expectedHash !== user.passwordHash) {
           res.statusCode = 401;
           res.end(JSON.stringify({ message: 'Invalid email or password.' }));
@@ -1173,9 +1179,22 @@ function resolveRoute(req, res) {
     return;
   }
 
-  const relativePath = pathname === '/' ? '/index.html' : pathname;
-  const safePath = path.normalize(relativePath).replace(/^\.+/, '');
-  const filePath = path.join(PUBLIC_DIR, safePath);
+  const portalRoutes = new Set(['/portal', '/login', '/admin', '/public/index.html', '/public']);
+
+  let filePath;
+  if (pathname === '/') {
+    filePath = path.join(ROOT, 'index.html');
+  } else if (portalRoutes.has(pathname)) {
+    filePath = path.join(PUBLIC_DIR, 'index.html');
+  } else {
+    const relativePath = pathname.startsWith('/public/') ? pathname.replace('/public', '') : pathname;
+    const safePath = path.normalize(relativePath).replace(/^\.+/, '');
+    filePath = path.join(ROOT, safePath);
+
+    if (!fs.existsSync(filePath)) {
+      filePath = path.join(PUBLIC_DIR, safePath);
+    }
+  }
 
   fs.readFile(filePath, (error, data) => {
     if (error) {

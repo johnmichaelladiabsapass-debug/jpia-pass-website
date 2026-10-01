@@ -429,6 +429,12 @@ async function checkSession() {
   try {
     const response = await api('/api/me');
     state.user = response.user;
+
+    if (state.user && state.user.role === 'user' && window.location.pathname !== '/') {
+      window.location.href = '/';
+      return;
+    }
+
     setAuthView(false);
     renderUserStatus();
     renderSections();
@@ -478,6 +484,13 @@ function bindAuthForms() {
       }
 
       state.user = response.user;
+
+      if (state.user.role === 'user') {
+        showToast('Login successful. Redirecting to the main page...');
+        window.location.href = '/';
+        return;
+      }
+
       setAuthView(false);
       renderUserStatus();
       renderSections();

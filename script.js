@@ -11,11 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const portalUrl = 'https://jpia-admin-portal.onrender.com/';
+  const portalUrl = '/portal';
   const portalButtons = ['Log In', 'Register', 'Become a Member', 'View Portal', 'Join Now'];
   document.querySelectorAll('.btn, button').forEach((button) => {
     if (portalButtons.includes(button.textContent.trim())) {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
         window.location.href = portalUrl;
       });
     }
