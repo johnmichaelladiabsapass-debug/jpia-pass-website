@@ -12,6 +12,13 @@ function safeResourceUrl(value) {
   }
 }
 
+function portalApiUrl(path) {
+  const origin = window.location.hostname === 'jpia-pass-public.onrender.com'
+    ? 'https://jpia-admin-portal.onrender.com'
+    : window.location.origin;
+  return new URL(path, origin);
+}
+
 function renderPublicResources(targetSelector, resources, kind) {
   const target = document.querySelector(targetSelector);
   target.replaceChildren();
@@ -61,7 +68,7 @@ async function loadMemberResources() {
   if (!notice) return;
 
   try {
-    const sessionResponse = await fetch('/api/me', { credentials: 'same-origin' });
+    const sessionResponse = await fetch(portalApiUrl('/api/me'), { credentials: 'include' });
     if (!sessionResponse.ok) {
       notice.hidden = false;
       renderPublicResources('#publicReportsList', [], 'reports');
@@ -70,8 +77,8 @@ async function loadMemberResources() {
     }
 
     const [reportsResponse, bylawsResponse] = await Promise.all([
-      fetch('/api/financial-reports', { credentials: 'same-origin' }),
-      fetch('/api/bylaws', { credentials: 'same-origin' })
+      fetch(portalApiUrl('/api/financial-reports'), { credentials: 'include' }),
+      fetch(portalApiUrl('/api/bylaws'), { credentials: 'include' })
     ]);
     if (!reportsResponse.ok || !bylawsResponse.ok) throw new Error('Resources unavailable');
     const [reports, bylaws] = await Promise.all([reportsResponse.json(), bylawsResponse.json()]);
@@ -109,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  const contentUrl = '/api/site-content';
-  const loadPublicAnnouncements = () => fetch(contentUrl)
+  const contentUrl = portalApiUrl('/api/site-content');
+  const loadPublicAnnouncements = () => fetch(contentUrl, { credentials: 'include' })
     .then((response) => response.ok ? response.json() : Promise.reject(new Error('Content unavailable')))
     .then(({ content }) => {
       const list = document.querySelector('.announcement-list');
