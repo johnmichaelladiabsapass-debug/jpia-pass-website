@@ -518,6 +518,15 @@ h1 {
   overflow-wrap: anywhere;
 }
 
+.public-resource-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
 .public-resource-card p,
 .member-resource-item p {
   margin: 0 0 12px;

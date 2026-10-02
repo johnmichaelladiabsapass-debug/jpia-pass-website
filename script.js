@@ -43,6 +43,28 @@ function renderPublicResources(targetSelector, resources, kind) {
       card.appendChild(description);
     }
 
+    const metadata = document.createElement('div');
+    metadata.className = 'public-resource-meta';
+    if (resource.type) {
+      const type = document.createElement('span');
+      type.textContent = String(resource.type).toUpperCase();
+      metadata.appendChild(type);
+    }
+    if (resource.uploadedBy) {
+      const uploader = document.createElement('span');
+      uploader.textContent = `Uploaded by ${resource.uploadedBy}`;
+      metadata.appendChild(uploader);
+    }
+    if (resource.createdAt) {
+      const createdAt = new Date(resource.createdAt);
+      if (!Number.isNaN(createdAt.getTime())) {
+        const date = document.createElement('span');
+        date.textContent = `Added ${createdAt.toLocaleDateString()}`;
+        metadata.appendChild(date);
+      }
+    }
+    if (metadata.childElementCount) card.appendChild(metadata);
+
     const href = safeResourceUrl(resource.fileUrl);
     const link = document.createElement(href ? 'a' : 'span');
     link.className = href ? 'public-resource-link' : 'public-resource-link unavailable';
